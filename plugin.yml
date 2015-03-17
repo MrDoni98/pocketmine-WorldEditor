@@ -6,28 +6,28 @@ author: Kagehis4
 website: https://github.com/ryuzaki01/pocketmine-WorldEditor
 commands:
  toggleeditwand:
-  description: Toggles the edit wand mode, to use edit wand item normally.
+  description: Переключиться в режим wand mode.
   usage: "/toggleeditwand"
   permission: worldeditor
  /cut:
-  description: Cuts the currently selected region.
+  description: Вырезать выделенную область
   usage: "//cut"
   permission: worldeditor.command
  /copy:
-  description: Copies the currently selected region.
+  description: Копировать выделенную область
   usage: "//copy"
   permission: worldeditor.command
  /paste:
-  description: Pastes the clipboard.
+  description: Вставить выбранную область
   usage: "//paste"
   permission: worldeditor.command
  /sphere:
-  description: Create a sphere.
-  usage: "//sphere <block> <radius>"
+  description: Создать сферу.
+  usage: "//sphere <блок> <радиус>"
   permission: worldeditor.command
  /hsphere:
-  description: Create a hollow sphere.
-  usage: "//hsphere <block> <radius>"
+  description: Создать пустую сферу.
+  usage: "//hsphere <блок> <radius>"
   permission: worldeditor.command
  /desel:
   description: Deselects the current selection.

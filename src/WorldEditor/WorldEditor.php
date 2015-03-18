@@ -24,7 +24,7 @@ class WorldEditor extends PluginBase implements Listener{
 	private static $dataDir = false;
 	
 	public function onLoad(){
-		$this->getLogger()->info(TextFormat::WHITE . "WorldEditor has been loaded!");
+		$this->getLogger()->info(TextFormat::WHITE . "WorldEditor загружен!");
 	}
 	
 	public function onEnable(){
@@ -32,7 +32,7 @@ class WorldEditor extends PluginBase implements Listener{
 		self::$dataDir = $this->getServer()->getPluginPath() . "WorldEditor/";
         $this->checkConfig();
 		$this->getServer()->getPluginManager()->registerEvents($this, $this);
-        $this->getLogger()->info("WorldEditor has been enabled!");
+        $this->getLogger()->info("WorldEditor включён!");
     }
 	
 	public function onCommand(CommandSender $sender, Command $command, $label, array $args){
@@ -40,7 +40,7 @@ class WorldEditor extends PluginBase implements Listener{
 		$params = $args;
 		
 		if(!($sender instanceof Player)){
-			$sender->sendMessage(TextFormat::RED . "Please run this command in-game.\n");
+			$sender->sendMessage(TextFormat::RED . "Введите команду в игре.\n");
 			return false;
 		}
 		
@@ -61,7 +61,7 @@ class WorldEditor extends PluginBase implements Listener{
 			case "copy":
 				$count = $this->countBlocks($data->get("selection"), $startX, $startY, $startZ);
 				if($count > $data->get("block-limit") and $data->get("block-limit") > 0){
-					$this->output .= "Block limit of ".$data->get("block-limit")." exceeded, tried to copy $count block(s).\n";
+					$this->output .= "Лимит блоков ".$data->get("block-limit")." превишен, скопированно $count блок(-ов).\n";
 					break;
 				}
 				
@@ -75,7 +75,7 @@ class WorldEditor extends PluginBase implements Listener{
 			case "cut":
 				$count = $this->countBlocks($data->get("selection"), $startX, $startY, $startZ);
 				if($count > $data->get("block-limit") and $data->get("block-limit") > 0){
-					$this->output .= "Block limit of ".$data->get("block-limit")." exceeded, tried to cut $count block(s).\n";
+					$this->output .= "Лимит блоков ".$data->get("block-limit")." превышен, вырезанно $count блок(-ов).\n";
 					break;
 				}
 				
@@ -89,27 +89,27 @@ class WorldEditor extends PluginBase implements Listener{
 			case "toggleeditwand":
 				$data->set("wand-usage", ($data->get("wand-usage") == true ? false:true));
 				$data->save();
-				$this->output .= "Wand Item is now ".($data->get("wand-usage") === true ? "enabled":"disabled").".\n";
+				$this->output .= "Инструмент для выделения ".($data->get("wand-usage") === true ? "вкл":"выкл").".\n";
 				break;
 			case "wand":
 				if($sender->getInventory()->contains(Item::fromString($this->getConfig()->get("wand-item")))){
-					$this->output .= "You already have the wand item.\n";
+					$this->output .= "У вас уже есть инструмент для выделения.\n";
 					break;
 				} elseif($sender->getGamemode() === 1){
-					$this->output .= "You are on creative mode.\n";
+					$this->output .= "Вы сейчас в креативе.\n";
 				} else{
 					$sender->getInventory()->addItem(Item::fromString($this->getConfig()->get("wand-item")));
 				}
-				$this->output .= "Break block to set pos #1 and Tap to set Pos #2.\n";
+				$this->output .= "Сломайте блок для установки 1-ой точки \nНажмите на блок для установки 2-ой точки\n";
 				break;
 			case "desel":
 				$data->set("selection", array(false, false));
 				$data->save();
-				$this->output = "Selection cleared.\n";
+				$this->output = "Выделение снято.\n";
 				break;
 			case "limit":
 				if(!isset($params[0]) or trim($params[0]) === ""){
-					$this->output .= "Usage: //limit <limit>\n";
+					$this->output .= "Используйте: //limit <количество блоков>\n";
 					break;
 				}
 				$limit = intval($params[0]);
@@ -121,7 +121,7 @@ class WorldEditor extends PluginBase implements Listener{
 				}
 				$data->set("block-limit", $limit);
 				$data->save();
-				$this->output .= "Block limit set to ".($limit === -1 ? "infinite":$limit)." block(s).\n";
+				$this->output .= "Лимит блоков установленн на ".($limit === -1 ? "бесконечность":$limit)." блоков.\n";
 				break;
 			case "pos1":
 				$this->setPosition1($sender, new Position($sender->getX() - 0.5, $sender->getY(), $sender->getZ() - 0.5, $sender->getLevel()));
@@ -137,7 +137,7 @@ class WorldEditor extends PluginBase implements Listener{
 					$filled = true;
 				}
 				if(!isset($params[1]) or $params[1] == ""){
-					$this->output .= "Usage: //$cmd <block> <radius>.\n";
+					$this->output .= "Используйте: //$cmd <блок> <радиус>.\n";
 					break;
 				}
 				$radius = abs(floatval($params[1]));
@@ -146,13 +146,13 @@ class WorldEditor extends PluginBase implements Listener{
 				if($items){
 					foreach($items as $item){
 						if($item->getID() > 0xff){
-							$this->output .= "Incorrect block.\n";
+							$this->output .= "Неверный блок.\n";
 							return;
 						}
 					}
 					$this->W_sphere(new Position($sender->getX() - 0.5, $sender->getY(), $sender->getZ() - 0.5, $sender->getLevel()), $items, $radius, $radius, $radius, $filled);
 				} else {
-					$this->output .= "Incorrect block, use ID.\n";
+					$this->output .= "Неверный блок, используйте ID.\n";
 				}
 				break;
 			case "cube":
@@ -160,7 +160,7 @@ class WorldEditor extends PluginBase implements Listener{
 					$filled = true;
 				}
 				if(!isset($params[1]) or $params[1] == ""){
-					$this->output .= "Usage: //$cmd <block> <radius>.\n";
+					$this->output .= "Используйте: //$cmd <блок> <радиус>.\n";
 					break;
 				}
 				$radius = abs(floatval($params[1]));
@@ -169,62 +169,62 @@ class WorldEditor extends PluginBase implements Listener{
 				if($items){
 					foreach($items as $item){
 						if($item->getID() > 0xff){
-							$this->output .= "Incorrect block.\n";
+							$this->output .= "Неверный блок.\n";
 							return;
 						}
 					}
 					$this->W_cube(new Position($sender->getX() - 0.5, $sender->getY(), $sender->getZ() - 0.5, $sender->getLevel()), $items, $radius, $radius, $radius, $filled);
 				} else {
-					$this->output .= "Incorrect block, use ID.\n";
+					$this->output .= "Неверный блок, используйте ID.\n";
 				}
 				break;
 			case "set":
 				$count = $this->countBlocks($data->get("selection"));
 				if($count > $data->get("block-limit") and $data->get("block-limit") > 0){
-					$this->output .= "Block limit of ".$data->get("block-limit")." exceeded, tried to change $count block(s).\n";
+					$this->output .= "Лимт блоков ".$data->get("block-limit")." превышен , вы пытались изменить $count блоков.\n";
 					break;
 				}
 				$items = Item::fromString($params[0], true);
 				if($items){
 					foreach($items as $item){
 						if($item->getID() > 0xff){
-							$this->output .= "Incorrect block.\n";
+							$this->output .= "Неверный блок.\n";
 							return;
 						}
 					}
 					$this->W_set($data->get("selection"), $items);
 				} else {
-					$this->output .= "Incorrect block, use ID.\n";
+					$this->output .= "Неверный блок, используйте ID.\n";
 				}
 				break;
 			case "replace":
 				$count = $this->countBlocks($data->get("selection"));
 				if($count > $data->get("block-limit") and $data->get("block-limit") > 0){
-					$this->output .= "Block limit of ".$data->get("block-limit")." exceeded, tried to change $count block(s).\n";
+					$this->output .= "Лимит блоков ".$data->get("block-limit")." превышен, вы попытались заменить $count блоков.\n";
 					break;
 				}
 				$item1 = Item::fromString($params[0]);
 				if($item1->getID() > 0xff){
-					$this->output .= "Incorrect target block.\n";
+					$this->output .= "Неверный блок.\n";
 					break;
 				}
 				$items2 = Item::fromString($params[1], true);
 				if($items){
 					foreach($items2 as $item){
 						if($item->getID() > 0xff){
-							$this->output .= "Incorrect replacement block.\n";
+							$this->output .= "Неверный блок замещения.\n";
 							return;
 						}
 					}
 					
 					$this->W_replace($data->get("selection"), $item1, $items2);
 				} else {
-					$this->output .= "Incorrect block, use ID.\n";
+					$this->output .= "Неверный блок, используйте ID.\n";
 				}
 				break;
 			default:
 			case "help":
-				$this->output .= "Commands: //cut, //copy, //paste, //sphere, //hsphere, //desel, //limit, //pos1, //pos2, //set, //replace, //help, //wand, /toggleeditwand\n";
+				$this->output .= "Команды: //cut, //copy, //paste, //sphere, //hsphere, //desel, //limit, //pos1, //pos2, //set, //replace, //help, //wand, /toggleeditwand\n";
 				break;
 		}
 		
@@ -279,7 +279,7 @@ class WorldEditor extends PluginBase implements Listener{
         }
 
         if(!is_numeric($this->getConfig()->get("block-limit"))){
-            $this->getLogger()->alert(TextFormat::RED . "Wrong format for block-limit.");
+            $this->getLogger()->alert(TextFormat::RED . "Неправильный формат блока лимита.");
             $this->getConfig()->set("block-limit", -1);
         }
 
@@ -319,7 +319,7 @@ class WorldEditor extends PluginBase implements Listener{
     }
 
     public function onDisable(){
-        $this->getLogger()->info("WorldEditor has been disabled!");
+        $this->getLogger()->info("WorldEditor выключен!");
     }
 	
 	public function setPosition1($username, Position $position){
@@ -334,7 +334,7 @@ class WorldEditor extends PluginBase implements Listener{
 		}else{
 			$count = " ($count)";
 		}
-		$this->output .= "First position set to (".$selection[0][0].", ".$selection[0][1].", ".$selection[0][2].")$count.\n";
+		$this->output .= "Первая точка установленна (".$selection[0][0].", ".$selection[0][1].", ".$selection[0][2].")$count.\n";
 		return true;
 	}
 	
@@ -350,7 +350,7 @@ class WorldEditor extends PluginBase implements Listener{
 		}else{
 			$count = " ($count)";
 		}
-		$this->output .= "Second position set to (".$selection[1][0].", ".$selection[1][1].", ".$selection[1][2].")$count.\n";
+		$this->output .= "Вторая точка установленна (".$selection[1][0].", ".$selection[1][1].", ".$selection[1][2].")$count.\n";
 		return true;
 	}
 	
@@ -369,7 +369,7 @@ class WorldEditor extends PluginBase implements Listener{
 
 	private function W_paste($clipboard, Position $pos){
 		if(count($clipboard) !== 2){
-			$this->output .= "Copy something first.\n";
+			$this->output .= "Сначало скопируйте регион.\n";
 			return false;
 		}
 		$clipboard[0][0] += $pos->x - 0.5;
@@ -387,13 +387,13 @@ class WorldEditor extends PluginBase implements Listener{
 				}
 			}
 		}
-		$this->output .= "$count block(s) have been changed.\n";
+		$this->output .= "$count блоков было вставлено.\n";
 		return true;
 	}
 	
 	private function W_copy($selection){
 		if(!is_array($selection) or $selection[0] === false or $selection[1] === false or $selection[0][3] !== $selection[1][3]){
-			$this->output .= "Make a selection first.\n";
+			$this->output .= "Сначало выделите регион.\n";
 			return array();
 		}
 		$level = $this->getServer()->getLevelByName($selection[0][3]);
@@ -417,13 +417,13 @@ class WorldEditor extends PluginBase implements Listener{
 				}
 			}
 		}
-		$this->output .= "$count block(s) have been copied.\n";
+		$this->output .= "$count блоков было скопировано.\n";
 		return $blocks;
 	}
 	
 	private function W_cut($selection){
 		if(!is_array($selection) or $selection[0] === false or $selection[1] === false or $selection[0][3] !== $selection[1][3]){
-			$this->output .= "Make a selection first.\n";
+			$this->output .= "Сначало выделите регион.\n";
 			return array();
 		}
 		$totalCount = $this->countBlocks($selection);
@@ -468,13 +468,13 @@ class WorldEditor extends PluginBase implements Listener{
 				}
 			}
 		}
-		$this->output .= "$count block(s) have been cut.\n";
+		$this->output .= "$count блоков вырезано.\n";
 		return $blocks;
 	}
 	
 	private function W_set($selection, $blocks){
 		if(!is_array($selection) or $selection[0] === false or $selection[1] === false or $selection[0][3] !== $selection[1][3]){
-			$this->output .= "Make a selection first.\n";
+			$this->output .= "Сначало выделите регион.\n";
 			return false;
 		}
 		$totalCount = $this->countBlocks($selection);
@@ -486,7 +486,7 @@ class WorldEditor extends PluginBase implements Listener{
 		$level = $this->getServer()->getLevelByName($selection[0][3]);
 		$bcnt = count($blocks) - 1;
 		if($bcnt < 0){
-			$this->output .= "Incorrect blocks.\n";
+			$this->output .= "Неверный блок.\n";
 			return false;
 		}
 		$startX = min($selection[0][0], $selection[1][0]);
@@ -520,13 +520,13 @@ class WorldEditor extends PluginBase implements Listener{
 				}
 			}
 		}
-		$this->output .= "$count block(s) have been changed.\n";
+		$this->output .= "$count блоков заполнено.\n";
 		return true;
 	}
 	
 	private function W_replace($selection, Item $block1, $blocks2){
 		if(!is_array($selection) or $selection[0] === false or $selection[1] === false or $selection[0][3] !== $selection[1][3]){
-			$this->output .= "Make a selection first.\n";
+			$this->output .= "Сначало выделите регион.\n";
 			return false;
 		}
 		
@@ -542,7 +542,7 @@ class WorldEditor extends PluginBase implements Listener{
 		
 		$bcnt2 = count($blocks2) - 1;
 		if($bcnt2 < 0){
-			$this->output .= "Incorrect blocks.\n";
+			$this->output .= "Неверный блок.\n";
 			return false;
 		}
 		
@@ -577,7 +577,7 @@ class WorldEditor extends PluginBase implements Listener{
 				}
 			}
 		}
-		$this->output .= "$count block(s) have been changed.\n";
+		$this->output .= "$count блоков заменено.\n";
 		return true;
 	}
 	
@@ -650,7 +650,7 @@ class WorldEditor extends PluginBase implements Listener{
 			}
 		}
 		
-		$this->output .= $count." block(s) have been changed.\n";
+		$this->output .= $count."блоков было изменено.\n";
 		return true;	
 	}
 	
@@ -719,7 +719,7 @@ class WorldEditor extends PluginBase implements Listener{
 			}
 		}
 		
-		$this->output .= $count." block(s) have been changed.\n";
+		$this->output .= $count." блоков было изменено.\n";
 		return true;	
 	}
 }

@@ -27,38 +27,38 @@ commands:
   permission: worldeditor.command
  /hsphere:
   description: Создать пустую сферу.
-  usage: "//hsphere <блок> <radius>"
+  usage: "//hsphere <блок> <радиус>"
   permission: worldeditor.command
  /desel:
-  description: Deselects the current selection.
+  description: Отменить выделение
   usage: "//desel"
   permission: worldeditor.command
  /limit:
-  description: Set your maximum number of blocks to change at most for all operations.
+  description: Установить максимальное количество выделенных блоков для операторов
   usage: "//limit <limit>"
   permission: worldeditor.command
  /pos1:
-  description: Set selection position #1 to the block above the one that you are standing on.
+  description: Установить первую точку
   usage: "//pos1"
   permission: worldeditor.command
  /pos2:
-  description: Set selection position #2 to the block above the one that you are standing on.
+  description: Установить вторую точку
   usage: "//pos2"
   permission: worldeditor.command
  /set:
-  description: Set all blocks inside the selection region to a specified block(s)
-  usage: "//set <blockID>"
+  description: Заполнить выделенный регион указанным блоком
+  usage: "//set <ID блока>"
   permission: worldeditor.command
  /replace:
-  description: Replace all blocks of the specified block with another block(s) inside the region.
-  usage: "//replace <fromBlock> <toBlock>"
+  description: Заменить выбранный блоки в регионе на указанные 
+  usage: "//replace <Id блока> <ID блока>"
   permission: worldeditor.command
  /help:
-  description: Show list of commands
+  description: Посмотреть список всех команд
   usage: "//help"
   permission: worldeditor.command
  /wand:
-  description: Gives you the "edit wand".
+  description: Получить инструмент для выделения региона
   usage: "//wand"
   permission: worldeditor.command
 permissions:
